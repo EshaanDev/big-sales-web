@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import nestleImg from './images/nestle-4.svg';
 import cocaColaImg from './images/coca-cola-2021.svg';
 import pepsiImg from './images/pepsi.svg';
@@ -16,60 +16,23 @@ import lahoriImg from './images/lahori-zeera.svg';
 // Apple SF Pro system font stack
 const AF = "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', sans-serif";
 
-// Inline Brands JSON dataset as requested
-const BRAND_DATASET = {
-  "fmcg_brands": [
-    { "name": "Nestlé", "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Nestl%C3%A9_logo_and_wordmark.svg/320px-Nestl%C3%A9_logo_and_wordmark.svg.png" },
-    { "name": "Procter & Gamble", "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/Procter_%26_Gamble_logo.svg/320px-Procter_%26_Gamble_logo.svg.png" },
-    { "name": "Unilever", "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Unilever.svg/320px-Unilever.svg.png" },
-    { "name": "PepsiCo", "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/PepsiCo_logo.svg/320px-PepsiCo_logo.svg.png" },
-    { "name": "Coca-Cola", "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ce/Coca-Cola_logo.svg/320px-Coca-Cola_logo.svg.png" },
-    { "name": "Johnson & Johnson", "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Johnson_%26_Johnson_logo.svg/320px-Johnson_%26_Johnson_logo.svg.png" },
-    { "name": "L'Oréal", "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/L%27Or%C3%A9al_logo.svg/320px-L%27Or%C3%A9al_logo.svg.png" },
-    { "name": "Mondelez International", "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c4/Mondel%C4%93z_International_logo.svg/320px-Mondel%C4%93z_International_logo.svg.png" },
-    { "name": "Colgate-Palmolive", "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Colgate-Palmolive_logo.svg/320px-Colgate-Palmolive_logo.svg.png" },
-    { "name": "Danone", "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Danone_logo.svg/320px-Danone_logo.svg.png" },
-    { "name": "Reckitt", "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Reckitt_2021.svg/320px-Reckitt_2021.svg.png" },
-    { "name": "Kimberly-Clark", "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Kimberly-Clark_Logo.svg/320px-Kimberly-Clark_Logo.svg.png" },
-    { "name": "General Mills", "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/General_Mills_Logo.svg/320px-General_Mills_Logo.svg.png" },
-    { "name": "Kellogg's", "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Kellogg%27s_logo.svg/320px-Kellogg%27s_logo.svg.png" },
-    { "name": "Mars", "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/46/Mars_Incorporated_logo.svg/320px-Mars_Incorporated_logo.svg.png" },
-    { "name": "Ferrero", "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Ferrero_SpA_Logo.svg/320px-Ferrero_SpA_Logo.svg.png" },
-    { "name": "Heinz", "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Heinz_logo.svg/320px-Heinz_logo.svg.png" },
-    { "name": "Kraft Foods", "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/ca/Kraft_Heinz_logo.svg/320px-Kraft_Heinz_logo.svg.png" },
-    { "name": "Campbell Soup Company", "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Campbell%27s_Soup_Company_logo.svg/320px-Campbell%27s_Soup_Company_logo.svg.png" },
-    { "name": "Hormel Foods", "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Hormel_Foods_logo.svg/320px-Hormel_Foods_logo.svg.png" },
-    { "name": "Clorox", "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/The_Clorox_Company_logo.svg/320px-The_Clorox_Company_logo.svg.png" },
-    { "name": "SC Johnson", "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/12/SC_Johnson_logo.svg/320px-SC_Johnson_logo.svg.png" },
-    { "name": "Beiersdorf", "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Beiersdorf_logo.svg/320px-Beiersdorf_logo.svg.png" },
-    { "name": "Henkel", "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Henkel_logo.svg/320px-Henkel_logo.svg.png" },
-    { "name": "Amway", "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/6/62/Amway_Logo.svg/320px-Amway_Logo.svg.png" },
-    { "name": "ITC", "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/f/ff/ITC_Limited_Logo.svg/320px-ITC_Limited_Logo.svg.png" },
-    { "name": "Hindustan Unilever", "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b1/Unilever.svg/320px-Unilever.svg.png" },
-    { "name": "Dabur", "logo": "https://upload.wikimedia.org/wikipedia/en/thumb/7/7f/Dabur_Logo.svg/320px-Dabur_Logo.svg.png" },
-    { "name": "Marico", "logo": "https://upload.wikimedia.org/wikipedia/en/thumb/3/30/Marico_logo.svg/320px-Marico_logo.svg.png" },
-    { "name": "Godrej Consumer Products", "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Godrej_Group_Logo.svg/320px-Godrej_Group_Logo.svg.png" },
-    { "name": "Britannia", "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Britannia_Industries_logo.svg/320px-Britannia_Industries_logo.svg.png" },
-    { "name": "Patanjali", "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/1/1d/Patanjali_Ayurved_Logo.svg/320px-Patanjali_Ayurved_Logo.svg.png" },
-    { "name": "Emami", "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d4/Emami_Logo.svg/320px-Emami_Logo.svg.png" },
-    { "name": "Ajinomoto", "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Ajinomoto_Logo.svg/320px-Ajinomoto_Logo.svg.png" },
-    { "name": "Asahi Group", "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Asahi_Group_Holdings_logo.svg/320px-Asahi_Group_Holdings_logo.svg.png" },
-    { "name": "Kao Corporation", "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/ad/Kao_logo.svg/320px-Kao_logo.svg.png" },
-    { "name": "Shiseido", "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Shiseido_logo.svg/320px-Shiseido_logo.svg.png" },
-    { "name": "Tata Consumer Products", "logo": "https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Tata_Consumer_Products_Logo.svg/320px-Tata_Consumer_Products_Logo.svg.png" }
-  ]
-};
-
 function useInView(options = {}) {
   const ref = useRef(null);
   const [inView, setInView] = useState(false);
+  
+  // Stabilize the options object so it doesn't trigger unnecessary re-renders
+  const optionsStr = JSON.stringify(options);
+  const stableOptions = useMemo(() => JSON.parse(optionsStr), [optionsStr]);
+
   useEffect(() => {
     const observer = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting) { setInView(true); observer.disconnect(); }
-    }, { threshold: 0.12, ...options });
+    }, { threshold: 0.12, ...stableOptions });
+    
     if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
-  }, []);
+  }, [stableOptions]);
+  
   return [ref, inView];
 }
 
@@ -531,7 +494,6 @@ function Footer({ setPage }) {
         </div>
         <div style={{ borderTop: "1px solid rgba(255,255,255,0.06)", paddingTop: 26, display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: 10 }}>
           <span style={{ color: "rgba(255,255,255,0.28)", fontSize: 12, fontFamily: AF }}>© 2026 BigSale Trading Pvt. Ltd. All rights reserved.</span>
-          {/* GSTIN: 27AABCB1234F1Z5 · CIN: U51909MH2012PTC123456 */}
         </div>
       </div>
     </footer>
@@ -565,11 +527,6 @@ function AboutPage({ setPage }) {
             BigSale is India's premier multi-channel FMCG wholesale partner operating out of Mumbai — seamlessly connecting authentic product lines to thousands of modern trade structures, exporters, and merchants across 28 states.
           </p>
           <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-            {/* <button onClick={() => { setPage("quote"); window.scrollTo(0, 0); }} style={{ background: "linear-gradient(135deg,#FF6B35,#FF9F1C)", color: "#fff", border: "none", borderRadius: 12, padding: "14px 32px", fontSize: 14, fontWeight: 700, cursor: "pointer", boxShadow: "0 6px 22px rgba(255,107,53,0.38)", fontFamily: AF, transition: "all 0.2s" }}
-              onMouseEnter={e => { e.target.style.transform = "translateY(-2px)"; }}
-              onMouseLeave={e => { e.target.style.transform = "translateY(0)"; }}>
-              Partner With Us →
-            </button> */}
             <button onClick={() => { setPage("contact"); window.scrollTo(0, 0); }} style={{ background: "linear-gradient(135deg,#FF6B35,#FF9F1C)", color: "white", border: "1.5px solid rgba(0,0,0,0.12)", borderRadius: 12, padding: "14px 32px", fontSize: 14, fontWeight: 600, cursor: "pointer", fontFamily: AF, transition: "all 0.2s" }}
               onMouseEnter={e => { e.target.style.borderColor = "rgba(255,107,53,0.4)"; e.target.style.color = "#FF6B35"; }}
               onMouseLeave={e => { e.target.style.borderColor = "rgba(0,0,0,0.12)"; e.target.style.color = "#1C1008"; }}>
@@ -722,7 +679,10 @@ function ContactPage({ setPage }) {
         </div>
       </div>
 
-      <div ref={ref} style={{ maxWidth: 720, margin: "0 auto", padding: "60px 40px 100px" }}>
+      <div ref={ref} style={{ 
+          maxWidth: 720, margin: "0 auto", padding: "60px 40px 100px",
+          opacity: inView ? 1 : 0, transform: inView ? "translateY(0)" : "translateY(32px)", transition: "all 0.8s" 
+        }}>
         {formSubmitted ? (
           <div style={{ textAlign: "center", padding: "60px 24px", background: "#fff", borderRadius: 20, boxShadow: "0 8px 32px rgba(0,0,0,0.05)", border: "1px solid rgba(0,0,0,0.06)" }}>
             <div style={{ fontSize: 52, marginBottom: 16 }}>✉️</div>
@@ -925,17 +885,6 @@ function QuotePage({ setPage }) {
                   </div>
                 ))}
               </div>
-
-              {/* Phone number and feedback commented out as requested */}
-              {/* <div style={{ background: "#1C1008", borderRadius: 18, padding: "26px 24px" }}>
-                <div style={{ fontSize: 11, fontWeight: 700, color: "#FF9F1C", letterSpacing: 1.5, textTransform: "uppercase", marginBottom: 14, fontFamily: AF }}>Prefer to Call?</div>
-                <div style={{ fontSize: 20, fontWeight: 800, color: "#fff", marginBottom: 6, fontFamily: AF }}>+91 98765 43210</div>
-                <div style={{ fontSize: 12, color: "rgba(255,255,255,0.5)", marginBottom: 18, fontFamily: AF }}>Mon–Sat · 9 AM – 7 PM IST</div>
-              </div>
-              <div style={{ background: "#fff", borderRadius: 18, border: "1.5px solid rgba(0,0,0,0.08)", padding: "24px 22px", boxShadow: "0 2px 10px rgba(0,0,0,0.04)" }}>
-                <p style={{ fontSize: 13, color: "#4A3828", fontStyle: "italic" }}>Fast responses always.</p>
-              </div> 
-              */}
             </div>
           </div>
         )}
@@ -945,8 +894,6 @@ function QuotePage({ setPage }) {
 }
 
 // ─── Products Page ────────────────────────────────────────────────────────────
-// ─── Products Page ────────────────────────────────────────────────────────────
-// ─── Products Page ────────────────────────────────────────────────────────────
 function ProductsPage() {
   // Your explicit local image imports
   const localBrands = [
@@ -955,12 +902,10 @@ function ProductsPage() {
     { name: "Pepsi", file: pepsiImg },
     { name: "Britannia", file: britanniaImg },
     { name: "ITC", file: itcImg },
-    //{ name: "Kellogg's", file: kelloggsImg },
     { name: "Kinder", file: kinderImg },
     { name: "Schweppes", file: schweppesImg },
     { name: "Red Bull", file: redbullImg },
     { name: "Lay's", file: laysImg },
-   // { name: "Haldiram's", file: haldiramsImg },
     { name: "Tropicana", file: tropicanaImg },
     { name: "Lahori Zeera", file: lahoriImg },
   ];
@@ -1003,14 +948,6 @@ function ProductsPage() {
             style={{ width: "85%", height: "85%", objectFit: "contain", borderRadius: 6, background: "#fff" }}
             onError={e => { e.target.style.display = "none"; }}
           />
-          {/* <span style={{ 
-            fontSize: "clamp(8px, 0.8vw, 10px)", color: "#555", marginTop: 4, 
-            fontWeight: 700, textTransform: "uppercase", letterSpacing: -0.2, 
-            textAlign: "center", width: "100%", overflow: "hidden", 
-            textOverflow: "ellipsis", whiteSpace: "nowrap" 
-          }}>
-            {brand.name.split(" ")[0]}
-          </span> */}
         </div>
       </div>
     );
