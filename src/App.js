@@ -41,8 +41,6 @@ const NAV_LINKS = ["Home", "About", "Products", "Quote", "Contact"];
 const STATS = [
   { value: "20+", label: "Years in FMCG" },
   { value: "5,000+", label: "SKUs in Portfolio" },
-  { value: "₹450 Cr+", label: "Annual Turnover" },
-  { value: "28", label: "States Covered" },
 ];
 
 // Clean SVGs instead of standard emojis for professional presentation
@@ -64,7 +62,7 @@ const CATEGORIES = [
       </svg>
     ), 
     title: "Food & Snacks", 
-    desc: "Biscuits, namkeens, noodles, spices, oils and packaged staples for every shelf." 
+    desc: "Biscuits, namkeens, and packaged staples for every shelf." 
   },
 ];
 
@@ -267,7 +265,7 @@ function Hero({ setPage }) {
         </div>
 
         <div className="stats-strip" style={{
-          marginTop: 80, display: "grid", gridTemplateColumns: "repeat(4, 1fr)",
+          marginTop: 80, display: "grid", gridTemplateColumns: `repeat(${STATS.length}, 1fr)`,
           gap: 0, opacity: loaded ? 1 : 0, transition: "opacity 1.2s 0.5s",
           background: "#fff", borderRadius: 18, overflow: "hidden",
           border: "1.5px solid rgba(0,0,0,0.08)", boxShadow: "0 4px 24px rgba(0,0,0,0.07)",
@@ -277,6 +275,7 @@ function Hero({ setPage }) {
             <div key={i} style={{
               padding: "28px 20px", background: "#fff", textAlign: "center",
               borderRight: i < STATS.length - 1 ? "1.5px solid rgba(0,0,0,0.07)" : "none",
+              flex: 1,
             }}>
               <div style={{ fontSize: "clamp(24px,2.8vw,36px)", fontWeight: 800, background: "linear-gradient(135deg,#FF6B35,#FF9F1C)", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent", fontFamily: AF }}>{s.value}</div>
               <div style={{ color: "#A09080", fontSize: 12, marginTop: 5, fontWeight: 500, fontFamily: AF }}>{s.label}</div>
@@ -301,8 +300,7 @@ function About() {
             Built on Trust.<br />
             Scaled on <span style={{ color: "#FF6B35" }}>Volume.</span>
           </h2>
-          <p style={{ color: "#6B5A4E", lineHeight: 1.85, marginBottom: 18, fontSize: 15, fontFamily: AF }}>BigSale began as a prominent FMCG distributor in Mumbai with a simple conviction — the supply chain between premium manufacturers and the last-mile trade sector was unnecessarily segmented. We set out to fix it.</p>
-          <p style={{ color: "#6B5A4E", lineHeight: 1.85, marginBottom: 18, fontSize: 15, fontFamily: AF }}>Today, BigSale is one of India's fastest-growing multi-channel FMCG wholesalers based out of Mumbai. With a major climate-controlled infrastructure grid and streamlined nationwide logistics hubs, we seamlessly manage millions of consumer goods components every month.</p>
+          <p style={{ color: "#6B5A4E", lineHeight: 1.85, marginBottom: 18, fontSize: 15, fontFamily: AF }}>Today, BigSale is one of India's fastest-growing multi-channel FMCG wholesalers based out of Mumbai. With a major infrastructure grid and streamlined nationwide logistics hubs, we seamlessly manage millions of consumer goods components every month.</p>
           <p style={{ color: "#6B5A4E", lineHeight: 1.85, fontSize: 15, fontFamily: AF }}>We function as multi-tiered strategic stockists for market-leading global and national consumer units — giving our commercial distribution network elite volume-based pricing structures, verified supply chains, and absolute product safety assurance.</p>
         </div>
         <div style={{ opacity: inView ? 1 : 0, transform: inView ? "translateX(0)" : "translateX(40px)", transition: "all 0.9s 0.15s cubic-bezier(0.22,1,0.36,1)" }}>
@@ -320,7 +318,7 @@ function About() {
             </div>
           </div>
           <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginTop: 12 }}>
-            {[{ n: "10+", l: "Brand Authorisations" }, { n: "48hr", l: "Dispatch Turnaround" }, { n: "99.2%", l: "Order Accuracy" }, { n: "3,000+", l: "Active B2B Clients" }].map((s, i) => (
+            {[{ n: "Instant", l: "Dispatch Turnaround" }, { n: "99.2%", l: "Order Accuracy" }].map((s, i) => (
               <div key={i} style={{ background: i % 2 === 0 ? "rgba(255,107,53,0.06)" : "#FAFAF8", border: "1px solid rgba(0,0,0,0.07)", borderRadius: 14, padding: "20px 18px" }}>
                 <div style={{ fontSize: 28, fontWeight: 800, color: "#FF6B35", fontFamily: AF }}>{s.n}</div>
                 <div style={{ fontSize: 12, color: "#A09080", marginTop: 4, fontFamily: AF }}>{s.l}</div>
@@ -405,7 +403,7 @@ function WhyUs() {
   const [ref, inView] = useInView();
   const pillars = [
     { icon: "🔒", title: "Guaranteed Authenticity", desc: "Direct manufacturer partnerships ensure 100% authentic inventory track records with clear production batch codes." },
-    { icon: "🚚", title: "Pan-India Logistics", desc: "Our reliable freight distribution fleet covers 28 states with precision tracking structures and direct timelines." },
+    { icon: "🚚", title: "Pan-India Logistics", desc: "Our reliable freight distribution fleet covers India with precision tracking structures and direct timelines." },
     { icon: "💰", title: "Best-in-Market Pricing", desc: "Volume-based tiered trade options paired with scalable credit infrastructures for active corporate accounts." },
     { icon: "📊", title: "Smart Order Portal", desc: "Submit, track, and update supply requirements instantly via our secure wholesale workflow system around the clock." },
     { icon: "🤝", title: "Dedicated Corporate Care", desc: "Every professional entity receives immediate support from dedicated category replenishment professionals." },
@@ -516,23 +514,12 @@ function AboutPage({ setPage }) {
   return (
     <section style={{ minHeight: "100vh", background: "#FAFAF8", paddingTop: 72, fontFamily: AF }}>
       <div style={{ position: "relative", background: "#F8F3EE", padding: "80px 40px 90px", overflow: "hidden", textAlign: "center" }}>
-        <img src="https://images.unsplash.com/photo-1553413077-190dd305871c?w=1400&q=80" alt="Warehouse" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", opacity: 0.2 }} />
-        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(248,243,238,0.88) 0%, rgba(248,243,238,0.72) 60%, rgba(248,243,238,0.88) 100%)" }} />
-        <div style={{ position: "relative", maxWidth: 700, margin: "0 auto" }}>
+        <img src="https://images.unsplash.com/photo-1553413077-190dd305871c?w=1400&q=80" alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", opacity: 0.15 }} />
+        <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(248,243,238,0.9) 0%, rgba(248,243,238,0.82) 60%, rgba(248,243,238,0.9) 100%)" }} />
+        <div style={{ position: "relative", maxWidth: 640, margin: "0 auto" }}>
           <span style={{ color: "#FF6B35", fontSize: 11, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", fontFamily: AF }}>Who We Are</span>
-          <h1 style={{ fontSize: "clamp(36px,5vw,64px)", fontWeight: 800, letterSpacing: -2.5, margin: "16px 0 18px", color: "#1C1008", fontFamily: AF }}>
-            Built on <span style={{ color: "#FF6B35" }}>Integrity.</span><br />Powered by Scale.
-          </h1>
-          <p style={{ color: "#6B5A4E", fontSize: 16, lineHeight: 1.8, maxWidth: 540, margin: "0 auto 36px", fontFamily: AF }}>
-            BigSale is India's premier multi-channel FMCG wholesale partner operating out of Mumbai — seamlessly connecting authentic product lines to thousands of modern trade structures, exporters, and merchants across 28 states.
-          </p>
-          <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-            <button onClick={() => { setPage("contact"); window.scrollTo(0, 0); }} style={{ background: "linear-gradient(135deg,#FF6B35,#FF9F1C)", color: "white", border: "1.5px solid rgba(0,0,0,0.12)", borderRadius: 12, padding: "14px 32px", fontSize: 14, fontWeight: 600, cursor: "pointer", fontFamily: AF, transition: "all 0.2s" }}
-              onMouseEnter={e => { e.target.style.borderColor = "rgba(255,107,53,0.4)"; e.target.style.color = "#FF6B35"; }}
-              onMouseLeave={e => { e.target.style.borderColor = "rgba(0,0,0,0.12)"; e.target.style.color = "#1C1008"; }}>
-              Get in Touch
-            </button>
-          </div>
+          <h1 style={{ fontSize: "clamp(34px,4.5vw,58px)", fontWeight: 800, letterSpacing: -2.5, margin: "16px 0 18px", color: "#1C1008", fontFamily: AF }}>We'd Love to <span style={{ color: "#FF6B35" }}>Hear From You</span></h1>
+          <p style={{ color: "#6B5A4E", fontSize: 15, lineHeight: 1.8, marginBottom: 32, fontFamily: AF }}>Connect directly with our procurement help desk using our communication channel below. We verify and respond within 4 trade hours.</p>
         </div>
       </div>
 
@@ -545,11 +532,11 @@ function AboutPage({ setPage }) {
               We address a fundamental logistics challenge in consumer inventory management — creating single-point wholesale safety loops that replace broken middle tiers and remove asset fragmentation.
             </p>
             <p style={{ color: "#6B5A4E", lineHeight: 1.85, marginBottom: 18, fontSize: 15, fontFamily: AF }}>
-              By maintaining direct inventory alignments and climate-stable infrastructure facilities centered from Mumbai, BigSale offers systematic supply continuity to commercial buyers nationwide.
+              By maintaining direct inventory alignments and infrastructure facilities centered from Mumbai, BigSale offers systematic supply continuity to commercial buyers nationwide.
             </p>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginTop: 32 }}>
-              {[{ n: "20+", l: "Years of Experience" }, { n: "10+", l: "Brand Authorisations" }, { n: "3,000+", l: "Active Clients" }, { n: "28", l: "States Covered" }].map((s, i) => (
-                <div key={i} style={{ background: i % 2 === 0 ? "rgba(255,107,53,0.06)" : "#fff", border: "1px solid rgba(0,0,0,0.07)", borderRadius: 12, padding: "16px 14px" }}>
+              {[{ n: "20+", l: "Years of Experience" }, { n: "3,000+", l: "Active Clients" }].map((s, i) => (
+                <div key={i} style={{ background: i % 2 === 0 ? "rgba(255,107,53,0.06)" : "#FAFAF8", border: "1px solid rgba(0,0,0,0.07)", borderRadius: 12, padding: "16px 14px" }}>
                   <div style={{ fontSize: 26, fontWeight: 800, color: "#FF6B35", fontFamily: AF }}>{s.n}</div>
                   <div style={{ fontSize: 12, color: "#A09080", marginTop: 3, fontFamily: AF }}>{s.l}</div>
                 </div>
@@ -559,7 +546,7 @@ function AboutPage({ setPage }) {
           <div style={{ opacity: inView1 ? 1 : 0, transform: inView1 ? "translateX(0)" : "translateX(36px)", transition: "all 0.9s 0.15s cubic-bezier(0.22,1,0.36,1)" }}>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
               <div style={{ borderRadius: 18, overflow: "hidden", aspectRatio: "3/4", gridRow: "span 2", boxShadow: "0 12px 40px rgba(0,0,0,0.1)" }}>
-                <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=600&q=80" alt="Logistics Center" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                <img src="https://images.unsplash.com/photo-1580913428735-bd3c269d6a82?w=600&q=80" alt="Logistics Center" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
               </div>
               <div style={{ borderRadius: 18, overflow: "hidden", aspectRatio: "4/3", boxShadow: "0 8px 28px rgba(0,0,0,0.08)" }}>
                 <img src="https://images.unsplash.com/photo-1567606816596-e01b9a8e0c47?w=600&q=80" alt="FMCG Stocks" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
@@ -614,12 +601,11 @@ function AboutPage({ setPage }) {
             <div style={{ opacity: inView4 ? 1 : 0, transform: inView4 ? "translateX(0)" : "translateX(36px)", transition: "all 0.9s 0.15s cubic-bezier(0.22,1,0.36,1)" }}>
               <span style={{ color: "#FF6B35", fontSize: 11, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", fontFamily: AF }}>Our Infrastructure</span>
               <h2 style={{ fontSize: "clamp(26px,3vw,40px)", fontWeight: 800, letterSpacing: -1.5, margin: "14px 0 20px", color: "#1C1008", fontFamily: AF }}>Built to Handle Scale at Every Level</h2>
-              <p style={{ color: "#6B5A4E", lineHeight: 1.85, marginBottom: 18, fontSize: 15, fontFamily: AF }}>Our primary infrastructure frameworks include highly optimized climate-stable setups linked explicitly through regional distribution grids across Mumbai and matching national merchant ports.</p>
+              <p style={{ color: "#6B5A4E", lineHeight: 1.85, marginBottom: 18, fontSize: 15, fontFamily: AF }}>Our primary infrastructure frameworks include highly optimized setups linked explicitly through regional distribution grids across Mumbai and matching national merchant ports.</p>
               <p style={{ color: "#6B5A4E", lineHeight: 1.85, marginBottom: 28, fontSize: 15, fontFamily: AF }}>Our specialized workflow application logs stock level performance instantly so wholesale channels understand product ready times directly.</p>
               <div style={{ display: "flex", flexDirection: "column", gap: 14 }}>
                 {[
                   { icon: "🏭", text: "Elite logistical hub networks situated inside Mumbai" },
-                  { icon: "🌡️", text: "Climate-controlled storage zones for portfolio freshness" },
                   { icon: "📡", text: "Real-time stock level logging and status metrics" },
                   { icon: "🚛", text: "Authorized 3PL regional distribution transport fleet" },
                 ].map((item, i) => (
@@ -746,7 +732,7 @@ function QuotePage({ setPage }) {
         <div style={{ position: "relative", maxWidth: 580, margin: "0 auto" }}>
           <span style={{ color: "#FF6B35", fontSize: 11, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", fontFamily: AF }}>Get a Quote</span>
           <h1 style={{ fontSize: "clamp(30px,4vw,52px)", fontWeight: 800, letterSpacing: -2, margin: "14px 0 14px", color: "#1C1008", fontFamily: AF }}>Tell Us What <span style={{ color: "#FF6B35" }}>You Need</span></h1>
-          <p style={{ color: "#6B5A4E", fontSize: 15, lineHeight: 1.75, fontFamily: AF }}>Fill in the form below and our wholesale desk will send verified pricing metrics within 4 trade hours.</p>
+          <p style={{ color: "#6B5A4E", fontSize: 15, lineHeight: 1.75, fontFamily: AF }}>Fill in the form below and our wholesale desk will send verified pricing metrics</p>
         </div>
       </div>
 
@@ -1031,7 +1017,7 @@ function ProductsPage() {
       {/* Stats Strip */}
       <div style={{ background: "#fff", borderTop: "1px solid rgba(0,0,0,0.07)", borderBottom: "1px solid rgba(0,0,0,0.07)", padding: "36px 40px" }}>
         <div style={{ maxWidth: 860, margin: "0 auto", display: "flex", justifyContent: "space-around", flexWrap: "wrap", gap: 28 }}>
-          {[["10+", "Partner Brands"], ["5,000+", "Total SKUs"], ["100%", "Authentic"], ["48hr", "Dispatch"]].map(([v, l]) => (
+          {[["10+", "Partner Brands"], ["5,000+", "Total SKUs"], ["100%", "Authentic"], ["Instant", "Dispatch"]].map(([v, l]) => (
             <div key={l} style={{ textAlign: "center" }}>
               <div style={{ fontSize: 34, fontWeight: 800, color: "#FF6B35", fontFamily: AF }}>{v}</div>
               <div style={{ color: "#A09080", fontSize: 12, marginTop: 4, fontFamily: AF }}>{l}</div>
@@ -1044,7 +1030,7 @@ function ProductsPage() {
       <div style={{ maxWidth: 1280, margin: "0 auto", padding: "72px 40px" }}>
         <div style={{ textAlign: "center", marginBottom: 48 }}>
           <h2 style={{ fontSize: "clamp(26px,3vw,40px)", fontWeight: 800, letterSpacing: -1.8, color: "#1C1008", marginBottom: 12, fontFamily: AF }}>Our Brand Portfolio Matrix</h2>
-          <p style={{ color: "#6B5A4E", fontSize: 14, lineHeight: 1.75, maxWidth: 520, margin: "0 auto", fontFamily: AF }}>Direct logistical distribution frameworks for verified retail ready units with secure verification safety paths.</p>
+          <p style={{ color: "#6B5A4E", fontSize: 14, lineHeight: 1.75, maxWidth: 520, margin: "0 auto", fontFamily: AF }}>Direct logistical distribution frameworks for retail ready units with secure safety paths.</p>
         </div>
         <div style={{ display: "flex", flexWrap: "wrap", gap: 12, justifyContent: "center" }}>
           {localBrands.map((brand, i) => (
@@ -1056,7 +1042,7 @@ function ProductsPage() {
               </div>
               <div>
                 <div style={{ fontSize: 13, fontWeight: 700, color: "#1C1008", fontFamily: AF }}>{brand.name}</div>
-                <div style={{ fontSize: 10, color: "#FF6B35", fontWeight: 600, marginTop: 1, fontFamily: AF }}>VERIFIED DISTRIBUTION</div>
+                <div style={{ fontSize: 10, color: "#FF6B35", fontWeight: 600, marginTop: 1, fontFamily: AF }}></div>
               </div>
             </div>
           ))}
