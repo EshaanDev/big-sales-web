@@ -12,6 +12,9 @@ import laysImg from './images/lays.svg';
 import redbullImg from './images/redbull.svg';
 import tropicanaImg from './images/tropicana.svg';
 import lahoriImg from './images/lahori-zeera.svg';
+// Add this near the top of your file
+const TARGET_EMAIL = "yashwaghulkar4545@gmail.com";
+const FORM_ENDPOINT = `https://formsubmit.co/ajax/${TARGET_EMAIL}`;
 
 // Apple SF Pro system font stack
 const AF = "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 'Helvetica Neue', sans-serif";
@@ -312,7 +315,7 @@ function About() {
                 <span style={{ fontSize: 22 }}>📊</span>
                 <div>
                   <div style={{ fontSize: 13, fontWeight: 700, color: "#fff", fontFamily: AF }}>Mumbai Corporate Hub</div>
-                  <div style={{ fontSize: 11, color: "rgba(255,255,255,0.85)", marginTop: 1, fontFamily: AF }}>Primary Core Logistics Hub · Climate Controlled</div>
+                  <div style={{ fontSize: 11, color: "rgba(255,255,255,0.85)", marginTop: 1, fontFamily: AF }}>Primary Core Logistics Hub</div>
                 </div>
               </div>
             </div>
@@ -449,7 +452,7 @@ function CTABanner({ setPage }) {
       <div style={{ position: "absolute", left: -60, bottom: -60, width: 360, height: 360, borderRadius: "50%", background: "rgba(0,0,0,0.1)" }} />
       <div style={{ maxWidth: 800, margin: "0 auto", textAlign: "center", position: "relative", opacity: inView ? 1 : 0, transform: inView ? "scale(1)" : "scale(0.96)", transition: "all 0.8s" }}>
         <h2 style={{ fontSize: "clamp(28px,4vw,50px)", fontWeight: 800, letterSpacing: -2, color: "#fff", marginBottom: 16, fontFamily: AF }}>Ready to Scale Your Business?</h2>
-        <p style={{ color: "rgba(255,255,255,0.85)", fontSize: 16, lineHeight: 1.75, marginBottom: 42, fontFamily: AF }}>Join thousands of professional B2B channels who look to BigSale for zero-interruption distribution. Minimum order ₹50,000. Verified trade terms available.</p>
+        <p style={{ color: "rgba(255,255,255,0.85)", fontSize: 16, lineHeight: 1.75, marginBottom: 42, fontFamily: AF }}>Join thousands of professional B2B channels who look to BigSale for zero-interruption distribution. Verified trade terms available.</p>
         <div style={{ display: "flex", gap: 14, justifyContent: "center", flexWrap: "wrap" }}>
           <button onClick={() => { setPage("quote"); window.scrollTo(0, 0); }} style={{ background: "#fff", color: "#FF6B35", border: "none", borderRadius: 13, padding: "17px 42px", fontSize: 15, fontWeight: 800, cursor: "pointer", boxShadow: "0 6px 28px rgba(0,0,0,0.2)", transition: "all 0.2s", fontFamily: AF }}
             onMouseEnter={e => { e.target.style.transform = "translateY(-2px)"; e.target.style.boxShadow = "0 12px 40px rgba(0,0,0,0.28)"; }}
@@ -622,7 +625,7 @@ function AboutPage({ setPage }) {
 
       <div style={{ background: "linear-gradient(135deg,rgba(255,107,53,0.07),rgba(255,159,28,0.05))", border: "1px solid rgba(255,107,53,0.12)", margin: "0 40px 80px", borderRadius: 20, padding: "48px 40px", textAlign: "center" }}>
         <h3 style={{ fontSize: "clamp(22px,2.5vw,34px)", fontWeight: 800, letterSpacing: -1.2, color: "#1C1008", marginBottom: 12, fontFamily: AF }}>Ready to become a BigSale partner?</h3>
-        <p style={{ color: "#6B5A4E", fontSize: 15, marginBottom: 28, fontFamily: AF }}>Minimum first order ₹50,000. Corporate validation paths apply.</p>
+        <p style={{ color: "#6B5A4E", fontSize: 15, marginBottom: 28, fontFamily: AF }}></p>
         <button onClick={() => { setPage("quote"); window.scrollTo(0, 0); }} style={{ background: "linear-gradient(135deg,#FF6B35,#FF9F1C)", color: "#fff", border: "none", borderRadius: 13, padding: "16px 38px", fontSize: 15, fontWeight: 700, cursor: "pointer", boxShadow: "0 6px 24px rgba(255,107,53,0.35)", fontFamily: AF, transition: "all 0.2s" }}
           onMouseEnter={e => { e.target.style.transform = "translateY(-2px)"; e.target.style.boxShadow = "0 12px 36px rgba(255,107,53,0.5)"; }}
           onMouseLeave={e => { e.target.style.transform = "translateY(0)"; e.target.style.boxShadow = "0 6px 24px rgba(255,107,53,0.35)"; }}>
@@ -640,10 +643,31 @@ function ContactPage({ setPage }) {
   const [formSubmitted, setFormSubmitted] = useState(false);
 
   const handleContactChange = e => setContactForm({ ...contactForm, [e.target.name]: e.target.value });
-  const handleContactSubmit = (e) => {
+  const handleContactSubmit = async (e) => {
     e.preventDefault();
     if (contactForm.name && contactForm.email && contactForm.text) {
-      setFormSubmitted(true);
+      try {
+        const response = await fetch(FORM_ENDPOINT, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            _subject: `New Contact Inquiry from ${contactForm.name}`,
+            ...contactForm
+          }),
+        });
+        
+        if (response.ok) {
+          setFormSubmitted(true);
+        } else {
+          alert("Failed to send message. Please try again later.");
+        }
+      } catch (error) {
+        console.error("Form submission error:", error);
+        alert("An error occurred while submitting the form.");
+      }
     }
   };
 
@@ -716,7 +740,35 @@ function QuotePage({ setPage }) {
   const [form, setForm] = useState({ name: "", company: "", email: "", phone: "", type: "", categories: [], volume: "", message: "" });
   const [sent, setSent] = useState(false);
   const handle = e => setForm({ ...form, [e.target.name]: e.target.value });
-  const submit = () => { if (form.name && form.email && form.type) setSent(true); };
+  const submit = async () => {
+    if (form.name && form.email && form.type) {
+      try {
+        // Change button text or show a loading state here if desired
+        const response = await fetch(FORM_ENDPOINT, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            _subject: `New Quote Request from ${form.company || form.name}`,
+            ...form
+          }),
+        });
+
+        if (response.ok) {
+          setSent(true);
+        } else {
+          alert("Failed to send quote request. Please try again later.");
+        }
+      } catch (error) {
+        console.error("Quote submission error:", error);
+        alert("An error occurred while submitting the form.");
+      }
+    } else {
+      alert("Please fill in all required fields (Name, Company, Email, Business Type).");
+    }
+  };
 
   const inputBase = {
     width: "100%", background: "#FAFAF8", border: "1.5px solid rgba(0,0,0,0.1)",
