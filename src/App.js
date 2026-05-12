@@ -144,15 +144,15 @@ function Navbar({ page, setPage }) {
       <style>{GLOBAL_STYLES}</style>
       <div style={{ maxWidth: 1280, margin: "0 auto", padding: "0 32px", display: "flex", alignItems: "center", justifyContent: "space-between", height: 72 }}>
         <div onClick={() => navTo("Home")} style={{ cursor: "pointer", display: "flex", alignItems: "center", gap: 11 }}>
-          <div style={{
+          {/* <div style={{
             width: 40, height: 40, borderRadius: 11,
             background: "linear-gradient(135deg,#FF6B35,#FF9F1C)",
             display: "flex", alignItems: "center", justifyContent: "center",
             fontSize: 20, fontWeight: 900, color: "#fff",
             boxShadow: "0 4px 14px rgba(255,107,53,0.38)",
-          }}>B</div>
+          }}>B</div> */}
           <span style={{ fontSize: 21, fontWeight: 700, color: "#1C1008", letterSpacing: -0.5, fontFamily: AF }}>
-            BigSale<span style={{ color: "#FF6B35" }}>.</span>
+            BigSale<span style={{ color: "#FF6B35" }}></span>
           </span>
         </div>
 
