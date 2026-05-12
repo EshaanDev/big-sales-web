@@ -152,7 +152,7 @@ function Navbar({ page, setPage }) {
             boxShadow: "0 4px 14px rgba(255,107,53,0.38)",
           }}>B</div> */}
           <span style={{ fontSize: 21, fontWeight: 700, color: "#1C1008", letterSpacing: -0.5, fontFamily: AF }}>
-            BigSale<span style={{ color: "#FF6B35" }}></span>
+            Big<span style={{ color: "#FF6B35" }}>Sale</span>
           </span>
         </div>
 
