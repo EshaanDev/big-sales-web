@@ -4,6 +4,9 @@ import cocaColaImg from './images/coca-cola-2021.svg';
 import pepsiImg from './images/pepsi.svg';
 import britanniaImg from './images/britannia-industries-logo.svg';
 import itcImg from './images/itc-limited.svg';
+import gatorade from './images/gatorade.svg';
+import quaker from './images/quaker-2.svg';
+import cheetos from './images/cheetos.svg';
 
 import kinderImg from './images/kinder-logo.svg';
 import schweppesImg from './images/schweppes-5.svg';
@@ -22,7 +25,7 @@ const AF = "-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'SF Pro Text', 
 function useInView(options = {}) {
   const ref = useRef(null);
   const [inView, setInView] = useState(false);
-  
+
   // Stabilize the options object so it doesn't trigger unnecessary re-renders
   const optionsStr = JSON.stringify(options);
   const stableOptions = useMemo(() => JSON.parse(optionsStr), [optionsStr]);
@@ -31,11 +34,11 @@ function useInView(options = {}) {
     const observer = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting) { setInView(true); observer.disconnect(); }
     }, { threshold: 0.12, ...stableOptions });
-    
+
     if (ref.current) observer.observe(ref.current);
     return () => observer.disconnect();
   }, [stableOptions]);
-  
+
   return [ref, inView];
 }
 
@@ -48,24 +51,24 @@ const STATS = [
 
 // Clean SVGs instead of standard emojis for professional presentation
 const CATEGORIES = [
-  { 
+  {
     icon: (
       <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
-        <path d="M19 10v1a7 7 0 0 1-14 0v-1"/>
+        <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z" />
+        <path d="M19 10v1a7 7 0 0 1-14 0v-1" />
       </svg>
-    ), 
-    title: "Beverages", 
-    desc: "Juices, soft drinks, energy drinks, packaged water and health drinks in bulk." 
+    ),
+    title: "Beverages",
+    desc: "Juices, soft drinks, energy drinks, packaged water and health drinks in bulk."
   },
-  { 
+  {
     icon: (
       <svg width="44" height="44" viewBox="0 0 24 24" fill="none" stroke="#FF6B35" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+        <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
       </svg>
-    ), 
-    title: "Food & Snacks", 
-    desc: "Biscuits, namkeens, and packaged staples for every shelf." 
+    ),
+    title: "Food & Snacks",
+    desc: "Biscuits, namkeens, and packaged staples for every shelf."
   },
 ];
 
@@ -152,7 +155,7 @@ function Navbar({ page, setPage }) {
             boxShadow: "0 4px 14px rgba(255,107,53,0.38)",
           }}>B</div> */}
           <span style={{ fontSize: 21, fontWeight: 700, color: "#1C1008", letterSpacing: -0.5, fontFamily: AF }}>
-            Big<span style={{ color: "#FF6B35" }}>Sale</span>
+            <span style={{ color: "#FF6B35" }}>Big</span>Sale
           </span>
         </div>
 
@@ -167,8 +170,8 @@ function Navbar({ page, setPage }) {
                 background: active ? "rgba(255,107,53,0.08)" : "transparent",
                 fontFamily: AF,
               }}
-                onMouseEnter={e => { if (!active) { e.target.style.color = "#1C1008"; e.target.style.background = "rgba(0,0,0,0.04)"; }}}
-                onMouseLeave={e => { if (!active) { e.target.style.color = "#4A3828"; e.target.style.background = "transparent"; }}}>
+                onMouseEnter={e => { if (!active) { e.target.style.color = "#1C1008"; e.target.style.background = "rgba(0,0,0,0.04)"; } }}
+                onMouseLeave={e => { if (!active) { e.target.style.color = "#4A3828"; e.target.style.background = "transparent"; } }}>
                 {l}
               </span>
             );
@@ -359,7 +362,7 @@ function WhoWeServe() {
               <div style={{ fontSize: 48, marginBottom: 20 }}>{c.icon}</div>
               <h3 style={{ fontSize: 20, fontWeight: 700, marginBottom: 12, color: "#1C1008", fontFamily: AF }}>{c.type}</h3>
               <p style={{ color: "#6B5A4E", fontSize: 14, lineHeight: 1.75, fontFamily: AF }}>{c.desc}</p>
-              <div style={{ marginTop: 26, display: "inline-flex", alignItems: "center", gap: 5, color: "#FF6B35", fontSize: 13, fontWeight: 700, fontFamily: AF }}>Learn more <span>→</span></div>
+              <div style={{ marginTop: 26, display: "inline-flex", alignItems: "center", gap: 5, color: "#FF6B35", fontSize: 13, fontWeight: 700, fontFamily: AF }}></div>
             </div>
           ))}
         </div>
@@ -517,7 +520,7 @@ function AboutPage({ setPage }) {
   return (
     <section style={{ minHeight: "100vh", background: "#FAFAF8", paddingTop: 72, fontFamily: AF }}>
       <div style={{ position: "relative", background: "#F8F3EE", padding: "80px 40px 90px", overflow: "hidden", textAlign: "center" }}>
-        <img src="https://images.unsplash.com/photo-1553413077-190dd305871c?w=1400&q=80" alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", opacity: 0.15 }} />
+        <img src="https://images.unsplash.com/photo-1542838132-92c53300491e?w=1400&q=80" alt="" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", opacity: 0.15 }} />
         <div style={{ position: "absolute", inset: 0, background: "linear-gradient(to bottom, rgba(248,243,238,0.9) 0%, rgba(248,243,238,0.82) 60%, rgba(248,243,238,0.9) 100%)" }} />
         <div style={{ position: "relative", maxWidth: 640, margin: "0 auto" }}>
           <span style={{ color: "#FF6B35", fontSize: 11, fontWeight: 700, letterSpacing: 3, textTransform: "uppercase", fontFamily: AF }}>Who We Are</span>
@@ -549,13 +552,13 @@ function AboutPage({ setPage }) {
           <div style={{ opacity: inView1 ? 1 : 0, transform: inView1 ? "translateX(0)" : "translateX(36px)", transition: "all 0.9s 0.15s cubic-bezier(0.22,1,0.36,1)" }}>
             <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14 }}>
               <div style={{ borderRadius: 18, overflow: "hidden", aspectRatio: "3/4", gridRow: "span 2", boxShadow: "0 12px 40px rgba(0,0,0,0.1)" }}>
-                <img src="https://images.unsplash.com/photo-1580913428735-bd3c269d6a82?w=600&q=80" alt="Logistics Center" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                <img src="https://images.unsplash.com/photo-1517088587697-8de5e72b421b?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" alt="Logistics Center" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
               </div>
               <div style={{ borderRadius: 18, overflow: "hidden", aspectRatio: "4/3", boxShadow: "0 8px 28px rgba(0,0,0,0.08)" }}>
-                <img src="https://images.unsplash.com/photo-1567606816596-e01b9a8e0c47?w=600&q=80" alt="FMCG Stocks" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                <img src="https://images.unsplash.com/photo-1506617420156-8e4536971650?w=600&q=80" alt="FMCG Stocks" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
               </div>
               <div style={{ borderRadius: 18, overflow: "hidden", aspectRatio: "4/3", boxShadow: "0 8px 28px rgba(0,0,0,0.08)" }}>
-                <img src="https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=600&q=80" alt="Mumbai Freight Infrastructure" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                <img src="https://images.unsplash.com/photo-1578916171728-46686eac8d58?w=600&q=80" alt="Mumbai Freight Infrastructure" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
               </div>
             </div>
           </div>
@@ -590,14 +593,14 @@ function AboutPage({ setPage }) {
           <div className="about-page-grid" style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 64, alignItems: "center" }}>
             <div style={{ opacity: inView4 ? 1 : 0, transform: inView4 ? "translateX(0)" : "translateX(-36px)", transition: "all 0.9s cubic-bezier(0.22,1,0.36,1)" }}>
               <div style={{ borderRadius: 20, overflow: "hidden", boxShadow: "0 16px 52px rgba(0,0,0,0.1)", aspectRatio: "4/3" }}>
-                <img src="https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=800&q=80" alt="Bulk Fulfillment" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                <img src="https://images.unsplash.com/photo-1550989460-0adf9ea622e2?w=800&q=80" alt="Bulk Fulfillment" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
               </div>
               <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginTop: 14 }}>
                 <div style={{ borderRadius: 14, overflow: "hidden", boxShadow: "0 6px 20px rgba(0,0,0,0.08)", aspectRatio: "4/3" }}>
-                  <img src="https://images.unsplash.com/photo-1580913428735-bd3c269d6a82?w=400&q=80" alt="Inventory Units" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                  <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=400&q=80" alt="Inventory Units" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                 </div>
                 <div style={{ borderRadius: 14, overflow: "hidden", boxShadow: "0 6px 20px rgba(0,0,0,0.08)", aspectRatio: "4/3" }}>
-                  <img src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=400&q=80" alt="Supply Network" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
+                  <img src="https://images.unsplash.com/photo-1553413077-190dd305871c?w=400&q=80" alt="Supply Network" style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                 </div>
               </div>
             </div>
@@ -658,7 +661,7 @@ function ContactPage({ setPage }) {
             ...contactForm
           }),
         });
-        
+
         if (response.ok) {
           setFormSubmitted(true);
         } else {
@@ -689,10 +692,10 @@ function ContactPage({ setPage }) {
         </div>
       </div>
 
-      <div ref={ref} style={{ 
-          maxWidth: 720, margin: "0 auto", padding: "60px 40px 100px",
-          opacity: inView ? 1 : 0, transform: inView ? "translateY(0)" : "translateY(32px)", transition: "all 0.8s" 
-        }}>
+      <div ref={ref} style={{
+        maxWidth: 720, margin: "0 auto", padding: "60px 40px 100px",
+        opacity: inView ? 1 : 0, transform: inView ? "translateY(0)" : "translateY(32px)", transition: "all 0.8s"
+      }}>
         {formSubmitted ? (
           <div style={{ textAlign: "center", padding: "60px 24px", background: "#fff", borderRadius: 20, boxShadow: "0 8px 32px rgba(0,0,0,0.05)", border: "1px solid rgba(0,0,0,0.06)" }}>
             <div style={{ fontSize: 52, marginBottom: 16 }}>✉️</div>
@@ -707,7 +710,7 @@ function ContactPage({ setPage }) {
         ) : (
           <form onSubmit={handleContactSubmit} style={{ background: "#fff", borderRadius: 20, border: "1.5px solid rgba(0,0,0,0.08)", padding: "40px 36px", boxShadow: "0 8px 36px rgba(0,0,0,0.06)" }}>
             <h2 style={{ fontSize: 22, fontWeight: 800, letterSpacing: -0.8, marginBottom: 24, color: "#1C1008" }}>Corporate Contact Portal</h2>
-            
+
             <label style={{ fontSize: 11, fontWeight: 700, color: "#A09080", letterSpacing: 1.2, display: "block", marginBottom: 7, textTransform: "uppercase" }}>Corporate Name *</label>
             <input type="text" name="name" required value={contactForm.name} onChange={handleContactChange} placeholder="e.g., Enterprise Name" style={fieldStyle}
               onFocus={e => { e.target.style.borderColor = "#FF6B35"; e.target.style.background = "#fff"; }} onBlur={e => { e.target.style.borderColor = "rgba(0,0,0,0.1)"; e.target.style.background = "#FAFAF8"; }} />
@@ -946,6 +949,9 @@ function ProductsPage() {
     { name: "Lay's", file: laysImg },
     { name: "Tropicana", file: tropicanaImg },
     { name: "Lahori Zeera", file: lahoriImg },
+    { name: "Gatorade", file: gatorade },
+    { name: "Cheetos", file: cheetos },
+    { name: "Quaker", file: quaker },
   ];
 
   // Split the brands dynamically into two groups for left/right (or top/bottom on mobile)
@@ -956,7 +962,7 @@ function ProductsPage() {
   // Reusable function to render a floating bubble
   const renderLogoBubble = (brand, index) => {
     // Dynamically assign one of your global float animations (float0 to float11)
-    const anim = `float${index % 12}`; 
+    const anim = `float${index % 12}`;
     const duration = `${5 + (index % 4)}s`;
     const delay = `${(index % 5) * 0.3}s`;
 
@@ -993,7 +999,7 @@ function ProductsPage() {
 
   return (
     <section style={{ minHeight: "100vh", background: "#F8F3EE", paddingTop: 72, overflow: "hidden", fontFamily: AF }}>
-      
+
       {/* Dynamic Layout CSS mapped specifically for the Hero */}
       <style>{`
         .hero-dynamic-layout {
@@ -1036,7 +1042,7 @@ function ProductsPage() {
 
         {/* Structured Flex Layout */}
         <div className="hero-dynamic-layout">
-          
+
           {/* Left / Top Cloud */}
           <div className="hero-logo-cloud">
             {leftBrands.map((brand, i) => renderLogoBubble(brand, i))}
